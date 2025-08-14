@@ -5,9 +5,8 @@ const cookieParser = require('cookie-parser');
 const cors =require('cors');
 
 const allowedOrigins = [
-  "http://localhost:5173",       // local
-  "http://192.168.31.96:5173",   // network URL
-  "http://13.53.90.173:5173"     // AWS frontend
+  "http://localhost:5173",  // dev
+  "http://13.53.90.173",    // production frontend via Nginx
 ];
 
 app.use(cors({
