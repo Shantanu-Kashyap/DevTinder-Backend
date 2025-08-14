@@ -5,8 +5,9 @@ const cookieParser = require('cookie-parser');
 const cors =require('cors');
 
 const allowedOrigins = [
-  "http://localhost:5173",  // dev
-  "http://13.53.90.173",    // production frontend via Nginx
+  "http://localhost:5173",   // dev
+  "http://13.53.90.173",     // production frontend via Nginx
+  "http://YOUR-DOMAIN.com",  // agar future me domain use karoge
 ];
 
 app.use(cors({
