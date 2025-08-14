@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const cors =require('cors');
 
 app.use(cors({
-    origin: "http://127.0.0.1:5173",
+    origin: "http://13.53.90.173:5173",
     credentials: true,
 }));
 
@@ -29,12 +29,12 @@ app.use('/',userRouter);
 // ------------------------ Connect to DB and Start Server ------------------------
 connectDB()
     .then(() => {
-        console.log("✅ Database connection established...");
+        console.log("Database connection established...");
     })
     .catch(err => {
         console.error("❌ Database not connected: ", err.message);
     });
 
-app.listen(3000, () => {
-    console.log(" Server listening on http://localhost:3000");
+app.listen(3000, '0.0.0.0', () => {
+    console.log(" Server is running on 0.0.0.0:3000");
 });
