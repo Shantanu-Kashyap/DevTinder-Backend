@@ -5,16 +5,16 @@ const cookieParser = require('cookie-parser');
 const cors =require('cors');
 
 const allowedOrigins = [
-  "http://localhost:5173",   // local frontend
-  "http://13.53.90.173:5173" // AWS deployed frontend
+  "http://localhost:5173",       // local
+  "http://192.168.31.96:5173",   // network URL
+  "http://13.53.90.173:5173"     // AWS frontend
 ];
 
 app.use(cors({
   origin: function(origin, callback){
-    // allow requests with no origin (like Postman or server-to-server)
-    if(!origin) return callback(null, true);
+    if(!origin) return callback(null, true); // allow server-to-server or Postman
     if(allowedOrigins.indexOf(origin) === -1){
-      const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+      const msg = "CORS policy does not allow this origin.";
       return callback(new Error(msg), false);
     }
     return callback(null, true);
