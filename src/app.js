@@ -3,6 +3,7 @@ const app = express();
 const connectDB = require("./config/database");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 // ==== CORS: allow local dev and your EC2 frontend (5173) ====
 const PUBLIC_IP = '13.53.90.173';
@@ -13,6 +14,7 @@ const allowedOrigins = new Set([
 ]);
 
 app.use(cors({
+    
   origin: (origin, cb) => {
     if (!origin || allowedOrigins.has(origin)) return cb(null, true);
     return cb(new Error('CORS blocked for: ' + origin), false);
@@ -28,6 +30,7 @@ const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
 const requestRouter = require('./routes/requests');
 const userRouter = require('./routes/user');
+
 
 app.use('/', authRouter);
 app.use('/', profileRouter);

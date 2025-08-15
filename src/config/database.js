@@ -1,7 +1,15 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 const connectDB = async () => {
-mongoose.connect("mongodb+srv://Shantanu167:cHG5rFxU4hNym73D@sko.buogje3.mongodb.net/devTinder");
-}
+  try {
+    await mongoose.connect(process.env.DB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Database connection established ");
+  } catch (err) {
+    console.error("Database connection failed", err);
+    process.exit(1);
+  }
+};
 
 module.exports = connectDB;
-
