@@ -43,12 +43,6 @@ const userSchema = new mongoose.Schema({
             values:["male", "female", "others"],
             message:`{VALUE} is not a valid gender type`
         },
-        // validate: {
-        //     validator: function (value) {
-        //         return ["male", "female", "others"].includes(value.toLowerCase());
-        //     },
-        //     message: props => `Gender value is not valid: ${props.value}`
-        // }
     },
     photoURL: {
         type: String,
@@ -65,19 +59,20 @@ const userSchema = new mongoose.Schema({
     },
     skills: {
         type: [String]
-    }
+    },
+    // **FIX:** Add the 'friends' array to the schema
+    friends: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, {
     timestamps: true,
 });
 
-// userSchema.index({firstName: 1});
-// userSchema.index({lastName: 1});
-
 userSchema.methods.getJWT = async function(){
     const user=this;
-    const token =await jwt.sign({ _id: user._id }, "Dev@Tinder123", { expiresIn: "1d" });
+    const token = await jwt.sign({ _id: user._id }, "Dev@Tinder123", { expiresIn: "1d" });
     return token;
 }
-
 
 module.exports = mongoose.model("User", userSchema);
