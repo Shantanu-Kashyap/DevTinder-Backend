@@ -47,10 +47,10 @@ const initializeSocket = (server) => {
           chat.messages.push(newMessage);
           await chat.save();
 
-          // NEW: Broadcast the message only to the other user
+     
           const roomId = getSecretRoomId(userId, targetUserId);
           socket.to(roomId).emit("messageReceived", {
-            senderId: userId, // Pass the sender's ID
+            senderId: userId,
             firstName,
             lastName,
             text,
