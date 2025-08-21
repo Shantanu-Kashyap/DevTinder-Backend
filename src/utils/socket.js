@@ -1,7 +1,6 @@
 const socket = require("socket.io");
 const crypto = require("crypto");
 const { Chat } = require("../models/chat");
-const ConnectionRequest = require("../models/connectionRequest");
 
 const getSecretRoomId = (userId, targetUserId) => {
   return crypto
@@ -13,12 +12,14 @@ const getSecretRoomId = (userId, targetUserId) => {
 const initializeSocket = (server, allowedOrigins) => {
   const io = socket(server, {
     cors: {
-      origin: Array.from(allowedOrigins),
-      credentials: true
+      origin: Array.from(allowedOrigins) || "*",
+      credentials: true,
     },
   });
 
   io.on("connection", (socket) => {
+    console.log("New client connected:", socket.id);
+
     socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
       const roomId = getSecretRoomId(userId, targetUserId);
       console.log(firstName + " joined Room : " + roomId);
@@ -43,13 +44,13 @@ const initializeSocket = (server, allowedOrigins) => {
           const newMessage = {
             senderId: userId,
             text,
+            createdAt: new Date(),
           };
 
           chat.messages.push(newMessage);
           await chat.save();
-          
-          const roomId = getSecretRoomId(userId, targetUserId);
 
+          const roomId = getSecretRoomId(userId, targetUserId);
           io.to(roomId).emit("messageReceived", {
             senderId: userId,
             firstName,
@@ -63,7 +64,9 @@ const initializeSocket = (server, allowedOrigins) => {
       }
     );
 
-    socket.on("disconnect", () => {});
+    socket.on("disconnect", () => {
+      console.log("Client disconnected:", socket.id);
+    });
   });
 };
 
