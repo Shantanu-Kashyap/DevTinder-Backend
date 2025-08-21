@@ -13,11 +13,14 @@ const PUBLIC_IP = "13.53.90.173";
 
 const allowedOrigins = new Set([
   `http://${PUBLIC_IP}`,
+  `http://${PUBLIC_IP}:80`,
+  `http://${PUBLIC_IP}:3000`,
+  `http://${PUBLIC_IP}:5173`,
   "http://localhost",
-  `http://${PUBLIC_IP}:${PORT}`, 
   "http://localhost:5173",
-  "http://127.0.0.1:5173" 
+  "http://127.0.0.1:5173"
 ]);
+
 
 app.use(
   cors({
